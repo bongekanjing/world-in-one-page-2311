@@ -35,11 +35,12 @@ FIGURES = [
     ("12,000", "EVACUATED, MANCHESTER"),
 ]
 
-AREAS = ["EUROPE", "ASIA", "MIDDLE EAST", "AFRICA", "AMERICAS", "OCEANIA"]
+AREAS = ["EUROPE", "ASIA", "MIDDLE EAST", "AFRICA", "NORTH AMERICA",
+         "LATIN AMERICA", "OCEANIA"]
 
 STORIES = [
     # ---------- the three that moved the day furthest ----------
-    dict(area="AMERICAS", slug="NVIDIA", place="SANTA CLARA", topic="Business",
+    dict(area="NORTH AMERICA", slug="NVIDIA", place="SANTA CLARA", topic="Business",
          art="chip", tier=1,
          head="Nvidia brings Huang back as chief",
          body="The board reinstated Jensen Huang 11 days after he resigned over "
@@ -91,7 +92,7 @@ STORIES = [
               "Washington to pay $290bn in damages.",
          src="AL JAZEERA \u00b7 REUTERS"),
 
-    dict(area="AMERICAS", slug="CONGRESS", place="WASHINGTON", topic="Politics",
+    dict(area="NORTH AMERICA", slug="CONGRESS", place="WASHINGTON", topic="Politics",
          art="gavel", tier=2,
          head="Democrats take the largest House majority since 1992",
          body="A win in North Carolina's last undecided seat took the party to "
@@ -148,7 +149,7 @@ STORIES = [
               "year. Workers marched for a fourth day.",
          src="AL JAZEERA \u00b7 THE HINDU"),
 
-    dict(area="AMERICAS", slug="BASEBALL", place="NEW YORK", topic="Sport",
+    dict(area="NORTH AMERICA", slug="BASEBALL", place="NEW YORK", topic="Sport",
          art="coin", tier=2,
          head="Mets give Skubal a record $450m",
          body="The nine-year deal carries a $50m average, the richest ever for "
@@ -217,31 +218,31 @@ STORIES = [
          art="none", tier=3,
          head="Preacher Uebert Angel arrested on assault allegations",
          body="", src="BBC"),
-    dict(area="AMERICAS", slug="TEXAS", place="WASHINGTON", topic="Law",
+    dict(area="NORTH AMERICA", slug="TEXAS", place="WASHINGTON", topic="Law",
          art="none", tier=3,
          head="Virginia and Oregon sue SpaceX over Grok's image output",
          body="", src="AL JAZEERA"),
-    dict(area="AMERICAS", slug="IOWA", place="DES MOINES", topic="Safety",
+    dict(area="NORTH AMERICA", slug="IOWA", place="DES MOINES", topic="Safety",
          art="none", tier=3,
          head="Trump defers detonating tonnes of unstable explosives",
          body="", src="BBC"),
-    dict(area="AMERICAS", slug="DELTA", place="ATLANTA", topic="Travel",
+    dict(area="NORTH AMERICA", slug="DELTA", place="ATLANTA", topic="Travel",
          art="none", tier=3,
          head="An automation fault delays Delta flights before Thanksgiving",
          body="", src="AP"),
-    dict(area="AMERICAS", slug="UNITED NATIONS", place="BRIDGETOWN", topic="Tech",
+    dict(area="LATIN AMERICA", slug="UNITED NATIONS", place="BRIDGETOWN", topic="Tech",
          art="none", tier=3,
          head="Guterres seeks a global AI safety framework within a year",
          body="", src="AL JAZEERA"),
-    dict(area="AMERICAS", slug="MEXICO", place="CULIACAN", topic="Security",
+    dict(area="LATIN AMERICA", slug="MEXICO", place="CULIACAN", topic="Security",
          art="none", tier=3,
          head="Soldiers attacked after the arrest of El Chapo Isidro",
          body="", src="BBC"),
-    dict(area="AMERICAS", slug="NFL", place="MEXICO CITY", topic="Sport",
+    dict(area="LATIN AMERICA", slug="NFL", place="MEXICO CITY", topic="Sport",
          art="none", tier=3,
          head="49ers rout the Vikings before 85,000 in Mexico City",
          body="", src="JAPAN TIMES"),
-    dict(area="AMERICAS", slug="FIFA", place="ZURICH", topic="Sport",
+    dict(area="EUROPE", slug="FIFA", place="ZURICH", topic="Sport",
          art="none", tier=3,
          head="A US-led bid takes the 2031 Women's World Cup",
          body="", src="AP"),

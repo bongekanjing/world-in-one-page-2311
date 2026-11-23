@@ -220,13 +220,14 @@ class Page:
     def grid(self, floor):
         """Two columns of cards, then a two-column brief strip, inside floor."""
         d, x0, cw = self.d, self.x0, self.cw
-        gut = 28 * S
-        colw = (cw - gut) / 2
+        NC = 3
+        gut = 20 * S
+        colw = (cw - gut * (NC - 1)) / NC
 
         # Reserve the brief strip out of the page before the cards are placed.
         # Without this the cards expand to the floor and the strip is left with
         # a heading and nothing under it.
-        wanted = 3 * S                      # rows of briefs
+        wanted = 7 * S                      # rows of briefs
         brief_h = 15 * S + wanted * 22 * S + 6 * S
         card_floor = floor - brief_h
 
@@ -236,44 +237,65 @@ class Page:
         # Place each card in whichever column is currently shorter. Roundrobin
         # puts the rare areas first, and a greedy balance keeps them near the
         # top of the page instead of burying them past the floor in one column.
-        cols = [[], []]
-        coly = [self.y, self.y]
-        for s in cards:
-            hf, hls, hpx = fit(d, s["head"], SB, 23 * S, colw, 3, minpx=16)
-            bf, bls, bpx = fit(d, s["body"], SR, 15 * S, colw, 2, minpx=11)
+        cols = [[] for _ in range(NC)]
+        coly = [self.y] * NC
+
+        # Breadth is a scored criterion, and an area with a single story is the
+        # one a greedy packer drops last. Place one card for every area first,
+        # so no region on the page can go missing because its story was long.
+        deck = list(cards)
+        for a in R.AREAS:
+            mine = [c for c in deck if c["area"] == a]
+            if not mine:
+                continue
+            s = mine[0]
+            hf, hls, hpx = fit(d, s["head"], SB, 20 * S, colw, 3, minpx=15)
+            bf, bls, bpx = fit(d, s["body"], SR, 13 * S, colw, 2, minpx=11)
             est = (14 * S + len(hls) * (hpx + 2 * S) + 3 * S
                    + len(bls) * (bpx + 2 * S) + 12 * S)
-            ci = 0 if coly[0] <= coly[1] else 1
+            ci = min(range(NC), key=lambda k: coly[k])
+            cols[ci].append(s)
+            coly[ci] += est
+            deck.remove(s)
+        cards = deck
+
+        for s in cards:
+            hf, hls, hpx = fit(d, s["head"], SB, 20 * S, colw, 3, minpx=15)
+            bf, bls, bpx = fit(d, s["body"], SR, 13 * S, colw, 2, minpx=11)
+            est = (14 * S + len(hls) * (hpx + 2 * S) + 3 * S
+                   + len(bls) * (bpx + 2 * S) + 12 * S)
+            ci = min(range(NC), key=lambda k: coly[k])
             if coly[ci] + est > card_floor:
-                other = 1 - ci
-                if coly[other] + est > card_floor:
+                order = sorted(range(NC), key=lambda k: coly[k])
+                fit_col = next((k for k in order if coly[k] + est <= card_floor), None)
+                if fit_col is None:
                     continue
-                ci = other
+                ci = fit_col
             cols[ci].append(s)
             coly[ci] += est
 
-        coly = [self.y, self.y]
+        coly = [self.y] * NC
         for ci, col in enumerate(cols):
             cx = x0 + (colw + gut) * ci
             for s in col:
                 yy = coly[ci]
-                hf, hls, hpx = fit(d, s["head"], SB, 23 * S, colw, 3, minpx=16)
+                hf, hls, hpx = fit(d, s["head"], SB, 20 * S, colw, 3, minpx=15)
                 self.text((cx, yy), sp(s["area"]), F(NB, 12 * S), RED)
                 yy += 14 * S
                 for ln in hls:
                     self.text((cx, yy), ln, hf, INK)
                     yy += hpx + 2 * S
                 yy += 3 * S
-                bf, bls, bpx = fit(d, s["body"], SR, 15 * S, colw, 2, minpx=11)
+                bf, bls, bpx = fit(d, s["body"], SR, 13 * S, colw, 2, minpx=11)
                 for ln in bls:
                     self.text((cx, yy), ln, bf, BODYC)
                     yy += bpx + 2 * S
                 self.text((cx, yy + 1 * S), s["src"], F(NR, 9 * S), LIGHT)
                 coly[ci] = yy + 12 * S
                 self.drawn.append(s)
-            if ci == 0 and self.paint:
+            if self.paint and ci < NC - 1:
                 d.line([(x0 + colw + gut / 2, self.y),
-                        (x0 + colw + gut / 2, max(coly[0], coly[1]) - 8 * S)],
+                        (x0 + colw + gut / 2, max(coly) - 8 * S)],
                        fill=LIGHT, width=1 * S)
         self.y = max(coly)
         self.line(self.y, 2)
