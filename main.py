@@ -1,4 +1,4 @@
-"""Pick the front-page headline that sums up 23 November 2026.
+"""Write entry.txt: the front-page headline that sums up 23 November 2026.
 
 The line is chosen from the day's reporting rather than written blind, so that
 it names the event that actually moved the day furthest and gets its facts
