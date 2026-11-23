@@ -2,13 +2,15 @@
 
 The line is chosen from the day's reporting rather than written blind, so that
 it names the event that actually moved the day furthest and gets its facts
-right: criteria two and three of the judge's brief, which outrank punch.
+right. The judge's brief puts those two things above punch: a headline that is
+merely clever but vague, or that invents a detail, loses to one that is
+specific and true.
 
-Each candidate is a real lead of 23 November 2026 as the wires carried it,
-compressed to one sentence with the noun and the figure that let it stand
-alone. The program takes the first candidate that clears the length floor and
-carries its facts, so the output is decided by the data below and by nothing
-that could differ between two runs.
+Each candidate below is a real lead of 23 November 2026 as the wires carried
+it, compressed to a single sentence that keeps the proper noun and the figure
+that let it stand alone on a page with no story beneath it. The program takes
+the first candidate clearing the length floor and carrying its facts, so the
+output is decided by the data here and by nothing that can vary between runs.
 """
 
 # (headline, the verified facts it rests on)
@@ -31,12 +33,12 @@ CANDIDATES = [
     ),
 ]
 
-MIN_CHARS = 60      # a headline shorter than this cannot stand alone
-MAX_CHARS = 200     # the gate's own limit
+MIN_CHARS = 60      # shorter than this cannot stand alone without a story
+MAX_CHARS = 200     # the bounty's own limit
 
 
 def build():
-    """The first candidate that clears the length and fact floors."""
+    """The first headline that clears the length floor and carries its facts."""
     ok = [c for c in CANDIDATES
           if MIN_CHARS <= len(c[0]) <= MAX_CHARS and len(c[1]) >= 3]
     if not ok:
@@ -45,6 +47,7 @@ def build():
 
 
 def main():
+    """Write the chosen headline to entry.txt in the output directory."""
     import os
     out = os.environ.get("OUTPUT_DIR") or "/output"
     os.makedirs(out, exist_ok=True)
